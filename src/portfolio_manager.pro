@@ -8,13 +8,19 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+# QXlsx code for Application Qt project
+QXLSX_PARENTPATH=../external/QXlsx
+QXLSX_HEADERPATH=../external/QXlsx/QXlsx/header/
+QXLSX_SOURCEPATH=../external/QXlsx/QXlsx/source/
+include(../external/QXlsx/QXlsx/QXlsx.pri)
+
 SOURCES += \
-    ../components/interactiondb/interactiondb.cpp \
+#    ../components/interactiondb/interactiondb.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    ../components/interactiondb/interactiondb.h \
+#    ../components/interactiondb/interactiondb.h \
     mainwindow.h
 
 FORMS += \

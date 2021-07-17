@@ -16,11 +16,13 @@ include(../external/QXlsx/QXlsx/QXlsx.pri)
 
 SOURCES += \
 #    ../components/interactiondb/interactiondb.cpp \
+    ../components/broker_reports/broker_reports.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
 #    ../components/interactiondb/interactiondb.h \
+    ../components/broker_reports/broker_reports.h \
     mainwindow.h
 
 FORMS += \

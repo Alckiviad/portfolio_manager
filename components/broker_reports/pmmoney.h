@@ -7,20 +7,26 @@
 #include <exception>
 #include <stdexcept>
 
-class PMMoney : public QObject
-{
+class PMCurrency : public QObject{
     Q_OBJECT
 public:
     // ISO 4217
-    typedef enum{
+    typedef enum {
         USD = 840,
         EUR = 978,
         RUB = 643
     } pm_currency_t;
     Q_ENUM(pm_currency_t)
+};
+
+
+template <PMCurrency::pm_currency_t C>
+class PMMoney
+{
+public:
 
     PMMoney();
-    PMMoney(qint64 value_centum, pm_currency_t cur);
+    PMMoney(qint64 value_centum);
 
     // Full value in cents
     qint64 get_value_centum(void) const;
@@ -34,16 +40,14 @@ public:
     void set_full_value(qint64 centum);
     void set_full_value(qint64 moneta, qint64 centum);
 
-    pm_currency_t get_currency(void) const;
+    PMCurrency::pm_currency_t get_currency(void) const;
     QString get_str_currency(void) const;
-    void set_currency(pm_currency_t cur);
 
     friend QDataStream& operator <<(QDataStream& stream, const PMMoney& money);
 
     friend PMMoney operator+(const PMMoney &money_l, const PMMoney &money_r);
 private:
     qint64 value; // centum
-    pm_currency_t currency; // type of currency
 };
 
 #endif // PMMONEY_H

@@ -1,57 +1,63 @@
 #include "pmmoney.h"
 
-PMMoney::PMMoney()
-    : value{0},
-      currency{PMMoney::USD}
+template <PMCurrency::pm_currency_t C>
+PMMoney<C>::PMMoney()
+    : value{0}
 {
 }
 
-PMMoney::PMMoney(qint64 value_centum, pm_currency_t cur)
-    : value{value_centum},
-      currency{cur}
+template <PMCurrency::pm_currency_t C>
+PMMoney<C>::PMMoney(qint64 value_centum)
+    : value{value_centum}
 {
 }
 
-qint64 PMMoney::get_value_centum(void) const
+
+template <PMCurrency::pm_currency_t C>
+qint64 PMMoney<C>::get_value_centum(void) const
 {
     return value;
 }
 
-qint64 PMMoney::get_moneta(void) const{
+template <PMCurrency::pm_currency_t C>
+qint64 PMMoney<C>::get_moneta(void) const{
     return (value / 100);
 }
 
-qint64 PMMoney::get_centum(void) const{
+template <PMCurrency::pm_currency_t C>
+qint64 PMMoney<C>::get_centum(void) const{
     return (value % 100);
 }
 
-void PMMoney::set_full_value(qint64 centum){
+template <PMCurrency::pm_currency_t C>
+void PMMoney<C>::set_full_value(qint64 centum){
     value = centum;
 }
 
-void PMMoney::set_full_value(qint64 moneta, qint64 centum){
+template <PMCurrency::pm_currency_t C>
+void PMMoney<C>::set_full_value(qint64 moneta, qint64 centum){
     value = moneta * 100 + centum;
 }
 
-PMMoney::pm_currency_t PMMoney::get_currency(void) const{
-    return currency;
+template <PMCurrency::pm_currency_t C>
+PMCurrency::pm_currency_t PMMoney<C>::get_currency(void) const{
+    return C;
 }
 
-QString PMMoney::get_str_currency(void) const{
-    QMetaEnum metaEnum = QMetaEnum::fromType<PMMoney::pm_currency_t>();
-    return metaEnum.valueToKey(PMMoney::currency);
+template <PMCurrency::pm_currency_t C>
+QString PMMoney<C>::get_str_currency(void) const{
+    QMetaEnum metaEnum = QMetaEnum::fromType<PMCurrency::pm_currency_t>();
+    return metaEnum.valueToKey(C);
 }
 
-void PMMoney::set_currency(pm_currency_t cur){
-    currency = cur;
-}
-
-QDataStream& operator <<(QDataStream& stream, const PMMoney& money){
+template <PMCurrency::pm_currency_t C>
+QDataStream& operator <<(QDataStream& stream, const PMMoney<C>& money){
     return stream << money.get_moneta() << '.' << money.get_centum() << ' '
                   << money.get_str_currency();
 }
 
-PMMoney operator+(const PMMoney &money_l, const PMMoney &money_r){
+template <PMCurrency::pm_currency_t C>
+PMMoney<C> operator+(const PMMoney<C> &money_l, const PMMoney<C> &money_r){
     if(money_l.currency != money_r.currency){
         throw std::invalid_argument("Addition of different carrency!");
     }

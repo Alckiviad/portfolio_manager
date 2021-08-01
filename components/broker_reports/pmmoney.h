@@ -43,9 +43,17 @@ public:
     PMCurrency::pm_currency_t get_currency(void) const;
     QString get_str_currency(void) const;
 
-    friend QDataStream& operator <<(QDataStream& stream, const PMMoney& money);
+    friend QDataStream& operator <<(QDataStream& stream, const PMMoney<C>& money){
+        return stream << money.get_moneta() << '.' << money.get_centum() << ' '
+                      << money.get_str_currency();
+    }
 
-    friend PMMoney operator+(const PMMoney &money_l, const PMMoney &money_r);
+    friend PMMoney operator+(const PMMoney &money_l, const PMMoney &money_r){
+        if(money_l.currency != money_r.currency){
+            throw std::invalid_argument("Addition of different carrency!");
+        }
+        return PMMoney(money_l.value + money_r.value, money_l.currency);
+    }
 private:
     qint64 value; // centum
 };

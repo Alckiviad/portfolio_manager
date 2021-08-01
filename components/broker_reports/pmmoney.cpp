@@ -49,17 +49,3 @@ QString PMMoney<C>::get_str_currency(void) const{
     QMetaEnum metaEnum = QMetaEnum::fromType<PMCurrency::pm_currency_t>();
     return metaEnum.valueToKey(C);
 }
-
-template <PMCurrency::pm_currency_t C>
-QDataStream& operator <<(QDataStream& stream, const PMMoney<C>& money){
-    return stream << money.get_moneta() << '.' << money.get_centum() << ' '
-                  << money.get_str_currency();
-}
-
-template <PMCurrency::pm_currency_t C>
-PMMoney<C> operator+(const PMMoney<C> &money_l, const PMMoney<C> &money_r){
-    if(money_l.currency != money_r.currency){
-        throw std::invalid_argument("Addition of different carrency!");
-    }
-    return PMMoney(money_l.value + money_r.value, money_l.currency);
-}

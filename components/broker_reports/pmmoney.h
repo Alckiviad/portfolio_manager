@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QDataStream>
 #include <QMetaEnum>
-#include <exception>
-#include <stdexcept>
 
 class PMCurrency : public QObject{
     Q_OBJECT
@@ -49,10 +47,11 @@ public:
     }
 
     friend PMMoney operator+(const PMMoney &money_l, const PMMoney &money_r){
-        if(money_l.currency != money_r.currency){
-            throw std::invalid_argument("Addition of different carrency!");
-        }
-        return PMMoney(money_l.value + money_r.value, money_l.currency);
+        return PMMoney(money_l.value + money_r.value);
+    }
+
+    friend PMMoney operator-(const PMMoney &money_l, const PMMoney &money_r){
+        return PMMoney(money_l.value - money_r.value);
     }
 private:
     qint64 value; // centum

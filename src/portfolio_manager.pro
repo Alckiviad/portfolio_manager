@@ -19,6 +19,7 @@ SOURCES += \
     ../components/broker_reports/broker_reports.cpp \
     ../components/broker_reports/pmassets.cpp \
     ../components/broker_reports/pmmoney.cpp \
+    ../components/broker_reports/pmtransaction.cpp \
     main.cpp \
     mainwindow.cpp
 
@@ -27,6 +28,7 @@ HEADERS += \
     ../components/broker_reports/broker_reports.h \
     ../components/broker_reports/pmassets.h \
     ../components/broker_reports/pmmoney.h \
+    ../components/broker_reports/pmtransaction.h \
     mainwindow.h
 
 FORMS += \

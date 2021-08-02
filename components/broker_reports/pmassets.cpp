@@ -21,3 +21,13 @@ template <QString& A, PMCurrency::pm_currency_t C>
 qint64 PMAssets<A,C>::get_number(void){
     return number;
 }
+
+template <QString& A, PMCurrency::pm_currency_t C>
+void PMAssets<A,C>::set_number(const qint64& num){
+    number = num;
+}
+
+template <QString& A, PMCurrency::pm_currency_t C>
+void PMAssets<A,C>::set_description(const QString& desc){
+    description = desc;
+}

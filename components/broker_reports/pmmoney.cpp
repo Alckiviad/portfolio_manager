@@ -2,13 +2,13 @@
 
 template <PMCurrency::pm_currency_t C>
 PMMoney<C>::PMMoney()
-    : value{0}
+    : PMValue()
 {
 }
 
 template <PMCurrency::pm_currency_t C>
 PMMoney<C>::PMMoney(qint64 value_centum)
-    : value{value_centum}
+    : PMValue(value_centum)
 {
 }
 

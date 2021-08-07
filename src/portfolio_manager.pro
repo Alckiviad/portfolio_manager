@@ -1,8 +1,8 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 5): QT += widgets
 
-CONFIG += c++11
+CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -19,15 +19,18 @@ SOURCES += \
     ../components/broker_reports/broker_reports.cpp \
     ../components/broker_reports/pmassets.cpp \
     ../components/broker_reports/pmmoney.cpp \
+    ../components/broker_reports/pmreport_parser.cpp \
     ../components/broker_reports/pmtransaction.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
 #    ../components/interactiondb/interactiondb.h \
+    ../components/broker_reports/broker.h \
     ../components/broker_reports/broker_reports.h \
     ../components/broker_reports/pmassets.h \
     ../components/broker_reports/pmmoney.h \
+    ../components/broker_reports/pmreport_parser.h \
     ../components/broker_reports/pmtransaction.h \
     mainwindow.h
 

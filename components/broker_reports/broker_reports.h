@@ -1,10 +1,7 @@
 #ifndef BROKER_REPORTS_H
 #define BROKER_REPORTS_H
 
-typedef enum {
-    TINKOFF = 0,
-    IB
-}broker_t;
+#include "broker.h"
 
 class Broker_Reports
 {

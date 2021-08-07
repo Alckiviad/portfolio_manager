@@ -17,9 +17,17 @@ public:
     Q_ENUM(pm_currency_t)
 };
 
+class PMValue
+{
+protected:
+    qint64 value;
+public:
+    PMValue(): value{0}{}
+    PMValue(qint64 val): value{val}{}
+};
 
 template <PMCurrency::pm_currency_t C>
-class PMMoney
+class PMMoney : public PMValue
 {
 public:
 
@@ -53,8 +61,6 @@ public:
     friend PMMoney operator-(const PMMoney &money_l, const PMMoney &money_r){
         return PMMoney(money_l.value - money_r.value);
     }
-private:
-    qint64 value; // centum
 };
 
 #endif // PMMONEY_H

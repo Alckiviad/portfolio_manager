@@ -1,9 +1,11 @@
-#ifndef PMMONEY_H
+﻿#ifndef PMMONEY_H
 #define PMMONEY_H
 
+#include <QtGlobal>
 #include <QObject>
 #include <QDataStream>
 #include <QMetaEnum>
+#include <QDebug>
 
 class PMCurrency : public QObject{
     Q_OBJECT
@@ -17,22 +19,16 @@ public:
     Q_ENUM(pm_currency_t)
 };
 
-class PMValue
+class PMMoney : public PMCurrency
 {
 protected:
     qint64 value;
-public:
-    PMValue(): value{0}{}
-    PMValue(qint64 val): value{val}{}
-};
-
-template <PMCurrency::pm_currency_t C>
-class PMMoney : public PMValue
-{
+    PMCurrency::pm_currency_t m_currency;
 public:
 
     PMMoney();
-    PMMoney(qint64 value_centum);
+    PMMoney(const PMMoney& money);
+    PMMoney(qint64 value_centum, PMCurrency::pm_currency_t currency);
 
     // Full value in cents
     qint64 get_value_centum(void) const;
@@ -49,17 +45,38 @@ public:
     PMCurrency::pm_currency_t get_currency(void) const;
     QString get_str_currency(void) const;
 
-    friend QDataStream& operator <<(QDataStream& stream, const PMMoney<C>& money){
-        return stream << money.get_moneta() << '.' << money.get_centum() << ' '
-                      << money.get_str_currency();
+    friend QDataStream& operator <<(QDataStream& stream, const PMMoney& money){
+        QString out;
+        out = QString::number(money.get_moneta()) + '.' + QString::number(money.get_centum());
+        return stream << out;
+    }
+
+    friend QDebug operator<<(QDebug dbg, const PMMoney &money){
+        QString out;
+        out = QString::number(money.get_moneta()) + '.' + QString::number(money.get_centum());
+        return dbg << out;
     }
 
     friend PMMoney operator+(const PMMoney &money_l, const PMMoney &money_r){
-        return PMMoney(money_l.value + money_r.value);
+        if(money_l.m_currency != money_r.m_currency){
+            qCritical() << "Different currency!";
+            Q_ASSERT(true);
+        }
+        return PMMoney(money_l.value + money_r.value, money_l.m_currency);
     }
 
     friend PMMoney operator-(const PMMoney &money_l, const PMMoney &money_r){
-        return PMMoney(money_l.value - money_r.value);
+        if(money_l.m_currency != money_r.m_currency){
+            qCritical() << "Different currency!";
+            Q_ASSERT(true);
+        }
+        return PMMoney(money_l.value - money_r.value, money_l.m_currency);
+    }
+
+    PMMoney& operator= (const PMMoney &money){
+        value = money.value;
+        m_currency = money.m_currency;
+        return *this;
     }
 };
 

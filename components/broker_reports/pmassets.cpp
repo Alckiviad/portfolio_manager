@@ -1,33 +1,42 @@
 #include "pmassets.h"
 
-template <QString& A, PMCurrency::pm_currency_t C>
-PMAssets<A,C>::PMAssets():
-    PMMoney<C>(),
-    number{0}
+
+PMAssets::PMAssets():
+    number{0},
+    cost()
 {}
 
-template <QString& A, PMCurrency::pm_currency_t C>
-PMAssets<A,C>::PMAssets(qint64 num, PMMoney<C>& value):
-    PMMoney<C>(value.get_value_centum()),
-    number{num}
+PMAssets::PMAssets(const PMAssets& asset):
+    number{asset.number},
+    cost(asset.cost)
 {}
 
-template <QString& A, PMCurrency::pm_currency_t C>
-PMMoney<C> PMAssets<A,C>::get_avr_price(void){
-    return PMMoney(PMMoney<C>::value / number);
+PMAssets::PMAssets(QString asset_symbol, qint64 asset_number, PMMoney asset_cost):
+    number{asset_number},
+    symbol{asset_symbol},
+    cost(asset_cost.get_value_centum(),asset_cost.get_currency())
+{}
+
+PMMoney PMAssets::get_avr_price(void)const{
+    return PMMoney(cost.get_value_centum() / number, cost.get_currency());
 }
 
-template <QString& A, PMCurrency::pm_currency_t C>
-qint64 PMAssets<A,C>::get_number(void){
+PMMoney PMAssets::get_cost(void)const{
+    return cost;
+}
+
+qint64 PMAssets::get_number(void)const{
     return number;
 }
 
-template <QString& A, PMCurrency::pm_currency_t C>
-void PMAssets<A,C>::set_number(const qint64& num){
+QString PMAssets::get_symbol(void)const{
+    return symbol;
+}
+
+void PMAssets::set_number(const qint64& num){
     number = num;
 }
 
-template <QString& A, PMCurrency::pm_currency_t C>
-void PMAssets<A,C>::set_description(const QString& desc){
-    description = desc;
+void PMAssets::set_symbol(const QString& symb){
+    symbol = symb;
 }

@@ -3,35 +3,41 @@
 
 #include "pmmoney.h"
 
-template <QString& A, PMCurrency::pm_currency_t C>
-class PMAssets : public PMMoney<C>
+class PMAssets
 {
 protected:
-    qint64 number;
-    QString description;
+    qint64  number;
+    QString symbol;
+    PMMoney cost;
 public:
     PMAssets();
-    PMAssets(qint64 num, PMMoney<C>& value);
+    PMAssets(const PMAssets& asset);
+    PMAssets(QString asset_symbol, qint64 asset_number, PMMoney asset_cost);
 
-    PMMoney<C> get_avr_price(void);
-    qint64 get_number(void);
+    PMMoney get_avr_price(void)const;
+    PMMoney get_cost(void)const;
+    qint64 get_number(void)const;
+    QString get_symbol(void)const;
 
     void set_number(const qint64& num);
-    void set_description(const QString& desc);
+    void set_symbol(const QString& desc);
 
-    friend PMAssets operator +(PMAssets<A,C>& left,PMAssets<A,C>& right){
-        return PMAssets(left.get_number() + right.get_number(),
-                        left.get_value_centum() + right.get_value_centum());
+    friend PMAssets operator +(PMAssets& left,PMAssets& right){
+        if(left.symbol !=right.symbol){
+            qCritical() << "Different asset!";
+            Q_ASSERT(true);
+        }
+        return PMAssets(left.symbol, left.number, left.cost + right.cost);
     }
 
-    friend PMAssets operator -(PMAssets<A,C>& left,PMAssets<A,C>& right){
-        return PMAssets(left.get_number() - right.get_number(),
-                        left.get_value_centum() - right.get_value_centum());
+    friend PMAssets operator -(PMAssets& left,PMAssets& right){
+        return PMAssets(left.symbol, left.number - right.number,
+                        left.cost - right.cost);
     }
 
-    friend QDataStream operator <<(QDataStream& stream, const PMAssets<A,C>& assets){
-        return stream << A << " Number: " << assets.get_number() << " Value: "
-                      << assets.PMMoney;
+    friend QDataStream& operator <<(QDataStream& stream, const PMAssets& assets){
+        return stream << assets.symbol << " Number: " << assets.number << " Cost: "
+                      << assets.number;
     }
 };
 

@@ -1,51 +1,49 @@
 #include "pmmoney.h"
 
-template <PMCurrency::pm_currency_t C>
-PMMoney<C>::PMMoney()
-    : PMValue()
+PMMoney::PMMoney()
+    : value{0},
+      m_currency{PMCurrency::USD}
 {
 }
 
-template <PMCurrency::pm_currency_t C>
-PMMoney<C>::PMMoney(qint64 value_centum)
-    : PMValue(value_centum)
+PMMoney::PMMoney(const PMMoney& money)
+    : value{money.value},
+      m_currency{money.m_currency}
 {
 }
 
+PMMoney::PMMoney(qint64 value_centum, PMCurrency::pm_currency_t currency)
+    : value{value_centum},
+      m_currency{currency}
+{
+}
 
-template <PMCurrency::pm_currency_t C>
-qint64 PMMoney<C>::get_value_centum(void) const
+qint64 PMMoney::get_value_centum(void) const
 {
     return value;
 }
 
-template <PMCurrency::pm_currency_t C>
-qint64 PMMoney<C>::get_moneta(void) const{
+qint64 PMMoney::get_moneta(void) const{
     return (value / 100);
 }
 
-template <PMCurrency::pm_currency_t C>
-qint64 PMMoney<C>::get_centum(void) const{
+qint64 PMMoney::get_centum(void) const{
     return (value % 100);
 }
 
-template <PMCurrency::pm_currency_t C>
-void PMMoney<C>::set_full_value(qint64 centum){
+void PMMoney::set_full_value(qint64 centum){
     value = centum;
 }
 
-template <PMCurrency::pm_currency_t C>
-void PMMoney<C>::set_full_value(qint64 moneta, qint64 centum){
+void PMMoney::set_full_value(qint64 moneta, qint64 centum){
     value = moneta * 100 + centum;
 }
 
-template <PMCurrency::pm_currency_t C>
-PMCurrency::pm_currency_t PMMoney<C>::get_currency(void) const{
-    return C;
+PMCurrency::pm_currency_t PMMoney::get_currency(void) const{
+    return m_currency;
 }
 
-template <PMCurrency::pm_currency_t C>
-QString PMMoney<C>::get_str_currency(void) const{
+QString PMMoney::get_str_currency(void) const{
     QMetaEnum metaEnum = QMetaEnum::fromType<PMCurrency::pm_currency_t>();
-    return metaEnum.valueToKey(C);
+    return metaEnum.valueToKey(m_currency);
 }

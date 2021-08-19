@@ -2,6 +2,7 @@
 #define BROKER_REPORTS_H
 
 #include "broker.h"
+#include "pmreport_parser.h"
 
 class Broker_Reports
 {

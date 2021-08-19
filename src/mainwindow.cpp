@@ -31,10 +31,13 @@ void MainWindow::load_broker_file()
                                         tr("Reports (*)"));
     if(!fileName.isEmpty()){
         qDebug() << "File Name - " << fileName;
+        PMReport_parser parser(fileName, MainWindow::broker_box);
+
+        std::vector<PMTransaction> transactions = parser.process_parsing();
+        qDebug() << "transactions number = " << transactions.size();
     } else {
         qDebug() << "File name is empty";
     }
-
 }
 
 void MainWindow::on_brokerbox_activated(int index)
@@ -52,4 +55,5 @@ void MainWindow::on_brokerbox_activated(int index)
             qCritical() << "Unexpected index of brokerbox: " << index;
     }
 }
+
 

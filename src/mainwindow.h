@@ -22,7 +22,6 @@ private slots:
     void load_broker_file();
 
     void on_brokerbox_activated(int index);
-
 private:
     Ui::MainWindow *ui;
     broker_t broker_box;

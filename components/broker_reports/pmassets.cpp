@@ -8,6 +8,7 @@ PMAssets::PMAssets():
 
 PMAssets::PMAssets(const PMAssets& asset):
     number{asset.number},
+    symbol{asset.symbol},
     cost(asset.cost)
 {}
 

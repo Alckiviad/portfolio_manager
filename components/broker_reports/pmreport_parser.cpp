@@ -143,6 +143,7 @@ std::vector<PMTransaction> PMReport_parser::ib_parsing(void){
                 PMMoney commiss(commission, currency);
 
                 PMTransaction trans(time_stamp, commiss, asset);
+                qDebug() << trans;
                 output.push_back(trans);
             }
         }

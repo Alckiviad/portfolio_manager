@@ -20,6 +20,8 @@ public:
     PMMoney get_commission(void)const;
     QDateTime get_timestamp(void)const;
     PMAssets  get_asset(void)const;
+
+    friend QDebug operator<<(QDebug dbg, const PMTransaction &trans);
 };
 
 #endif // PMTRANSACTION_H

@@ -40,3 +40,9 @@ QDateTime PMTransaction::get_timestamp(void)const{
 PMAssets PMTransaction::get_asset(void)const{
     return PMAssets(symbol, number, cost);
 }
+
+QDebug operator<<(QDebug dbg, const PMTransaction &trans){
+    return dbg << "Time:" << trans.timestamp << "Symb:" << trans.symbol
+               << "Number:" << trans.number << "Cost:" << trans.cost
+               << "Commission:" << trans.commission;
+}

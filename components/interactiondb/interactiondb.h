@@ -2,22 +2,33 @@
 #define INTERACTIONDB_H
 #include <QtSql/QSql>
 #include <QString>
-#include <map>
+#include <QMap>
 /*
  * Class for interaction with database
 */
-class interactionDB
+class InteractionDB
 {
+
+    struct new_data_base_Para
+    {
+      QString path_name;
+      QString type_db;
+    };
+    struct table_to_create
+    {
+        QList<QString> table_list;
+        QVector<QMap<QString, QString>> fields;
+    };
 public:
-    interactionDB
-    (
-           QString data_base_name,
-            int regime
-            );
-    void WriteToDB(std::map<QString, QString> toWrite);
+    InteractionDB(QString& arg);
+    bool WriteToTradesTable(std::vector<InteractionDB>& toWrite);
+    bool WriteToFundsTable(std::vector<InteractionDB>& toWrite);
+    bool CreateDataBase();
+    bool SetNewDataBaseProperties(QString path_name, QString type, QMap<QString, QString> fields);
+    template<typename T>
+    bool SetQueryRecords (T & records);
 private:
-    QString data_base_name;
-    int regime;
+    QString dataBaseName_;
 };
 
 #endif // INTERACTIONDB_H
